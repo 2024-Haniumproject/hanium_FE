@@ -1,0 +1,71 @@
+.travel-card {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    margin: 20px auto;
+    width: 200px;
+}
+
+.recommend {
+    margin: 10%;
+}
+
+.travel-image {
+    width: 100%;
+    height: auto;
+}
+
+.travel-info {
+    padding: 10px;
+}
+
+.slick-prev,
+.slick-next {
+    z-index: 1;
+    color: #000;
+}
+
+.slick-dots li button:before {
+    color: #000;
+}
+
+.Info {
+    display: flex;
+    justify-content: center;
+    margin-top: 6%;
+}
+.InfoText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 15px;
+}
+.Mypagecontents {
+    margin: 5%;
+}
+.selectiontitle {
+    font-size: 19px;
+    font-weight: 900;
+    margin-top: 5%;
+    margin-bottom: 3%;
+}
+
+.Logout {
+    font-size: 19px;
+    font-weight: 900;
+    margin-top: 5%;
+    margin-bottom: 3%;
+}
+.Chatbot {
+    font-size: 19px;
+    font-weight: 900;
+    margin-top: 5%;
+    margin-bottom: 3%;
+}
+@media (min-width: 768px) {
+    .Mypagecontents {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+}

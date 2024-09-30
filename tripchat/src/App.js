@@ -1,9 +1,24 @@
-import logo from "./logo.svg";
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Main from "./pages/main"; // 메인 페이지 컴포넌트
+import Mypage from "./pages/mypage";
+import Community from "./pages/Community";
+import Chathistory from "./pages/chathistory";
 function App() {
     return (
         <div className="App">
-            <header className="App-header"></header>
+            <Router>
+                <Routes>
+                    <Route exact path="/main" element={<Main />} />
+                    <Route exact path="/mypage" element={<Mypage />} />
+                    <Route exact path="/community" element={<Community />} />
+                    <Route
+                        exact
+                        path="/chathistory"
+                        element={<Chathistory />}
+                    />
+                </Routes>
+            </Router>
         </div>
     );
 }
