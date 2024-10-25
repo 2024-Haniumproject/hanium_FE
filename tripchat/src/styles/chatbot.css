@@ -1,0 +1,107 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 80vh;
+  padding: 20px;
+  background-color: #f0f4f8;
+}
+
+.chat-box {
+  width: 80%;
+  height: 65vh;
+  overflow-y: auto;
+  background-color: #d9eaf2;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+  margin-bottom: 15px; /* 메시지 간의 간격 */
+}
+
+.message-container.user {
+  align-items: flex-end; /* 사용자 메시지는 오른쪽 정렬 */
+}
+
+.message {
+  display: inline-block;
+  max-width: 60%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 16px;
+  position: relative;
+}
+
+/* 챗봇 메시지 스타일 */
+.message.bot {
+  background-color: white;
+  color: black;
+  border-radius: 20px 20px 20px 0;
+  margin-bottom: 5px;
+}
+
+/* 사용자 메시지 스타일 */
+.message.user {
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 20px 20px 0 20px;
+  text-align: right;
+}
+
+/* 버튼 컨테이너 스타일 */
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 5px 0;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  margin-top: 5px;
+}
+
+/* 옵션 버튼 스타일 */
+.option-button {
+  background-color: #d3d3d3;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.option-button:hover {
+  background-color: #b0b0b0;
+}
+
+/* 입력 창 스타일 */
+.input-container {
+  display: flex;
+  width: 80%;
+  margin-top: 20px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
