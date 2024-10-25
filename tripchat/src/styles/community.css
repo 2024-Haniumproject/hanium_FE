@@ -1,3 +1,7 @@
+.content {
+    margin-left: 5%;
+    margin-right: 5%;
+}
 .tabContainer {
     display: flex;
     justify-content: flex-start;
@@ -88,6 +92,8 @@
 .listing-item {
     text-decoration: none;
     color: inherit; /* 링크 색상을 부모 요소와 동일하게 유지 */
+    border: black 1px solid;
+    border-radius: 15px;
 }
 
 .listing-item:hover {
@@ -145,4 +151,65 @@
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 16px;
+}
+.fixed-write-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px; /* 아이콘 크기 */
+    height: 50px;
+    cursor: pointer;
+    z-index: 1000; /* 다른 요소보다 위에 표시되도록 */
+}
+
+.filter-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.filter-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
+    color: #888;
+}
+
+.filter-button .arrow {
+    margin-left: 8px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 40px; /* 버튼 아래에 위치 */
+    left: 0;
+    width: 100px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dropdown-menu div {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.dropdown-menu div:hover {
+    background-color: #f0f0f0;
+}
+.filter {
+    margin-left: 10%;
+}
+.filter div {
+    margin: 5px;
 }

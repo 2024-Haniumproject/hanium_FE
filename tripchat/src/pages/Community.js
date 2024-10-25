@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import heartgray from "../assets/heartgray.png";
 import heartcolor from "../assets/heartcolor.png";
+import writeicon from "../assets/newwrite.png";
 
 function Community() {
     const [activeTab, setActiveTab] = useState("후기");
@@ -19,18 +20,31 @@ function Community() {
         { id: 3, liked: false },
     ]);
     const [searchTerm, setSearchTerm] = useState(""); // 검색 상태 관리
+    const [selectedFilter1, setSelectedFilter1] = useState("전체"); // 첫 번째 드롭다운 필터 상태
+    const [selectedFilter2, setSelectedFilter2] = useState("지역"); // 두 번째 드롭다운 필터 상태
+    const [isDropdownOpen1, setDropdownOpen1] = useState(false); // 첫 번째 드롭다운 열림 상태
+    const [isDropdownOpen2, setDropdownOpen2] = useState(false); // 두 번째 드롭다운 열림 상태
 
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-        setCurrentPage(0); // 탭 변경 시 첫 페이지로 이동
+    const handleDropdownClick1 = () => {
+        setDropdownOpen1(!isDropdownOpen1); // 첫 번째 드롭다운 열고 닫기 토글
+        setDropdownOpen2(false); // 두 번째 드롭다운은 닫기
     };
 
-    const handleLikeClick = (index) => {
-        const updatedLiked = liked.map((item, i) =>
-            i === index ? { ...item, liked: !item.liked } : item
-        );
-        setLiked(updatedLiked); // 상태 업데이트
+    const handleDropdownClick2 = () => {
+        setDropdownOpen2(!isDropdownOpen2); // 두 번째 드롭다운 열고 닫기 토글
+        setDropdownOpen1(false); // 첫 번째 드롭다운은 닫기
     };
+
+    const handleFilterClick1 = (filter) => {
+        setSelectedFilter1(filter);
+        setDropdownOpen1(false); // 선택 후 드롭다운 닫기
+    };
+
+    const handleFilterClick2 = (filter) => {
+        setSelectedFilter2(filter);
+        setDropdownOpen2(false); // 선택 후 드롭다운 닫기
+    };
+
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value); // 검색어 업데이트
     };
@@ -99,7 +113,6 @@ function Community() {
         },
     ];
 
-    // locallistings 변수 추가 정의
     const locallistings = [
         {
             img: eximg1,
@@ -135,30 +148,33 @@ function Community() {
     // 검색어를 기준으로 필터링
     const filteredListings = (
         activeTab === "후기" ? popularlistings : locallistings
-    ).filter(
-        (listing) =>
-            listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            listing.preview.toLowerCase().includes(searchTerm.toLowerCase())
+    ).filter((listing) => {
+        if (selectedFilter1 === "전체") return true;
+        if (selectedFilter1 === "인기순") return true; // 인기순 로직 추가 가능
+        return listing.where === selectedFilter2; // 지역 필터링은 selectedFilter2로 처리
+    });
+
+    const currentListings = filteredListings.slice(
+        currentPage * itemsPerPage,
+        (currentPage + 1) * itemsPerPage
     );
 
-    const currentListings =
-        activeTab === "후기"
-            ? popularlistings.slice(
-                  currentPage * itemsPerPage,
-                  (currentPage + 1) * itemsPerPage
-              )
-            : locallistings.slice(
-                  currentPage * itemsPerPage,
-                  (currentPage + 1) * itemsPerPage
-              );
-
-    const totalPages = Math.ceil(
-        (activeTab === "후기" ? popularlistings.length : locallistings.length) /
-            itemsPerPage
-    );
+    const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
 
     const goToPage = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+
+    const handleTabClick = (tab) => {
+        setActiveTab(tab); // 탭 변경
+        setCurrentPage(0); // 페이지를 첫 페이지로 초기화
+    };
+
+    const handleLikeClick = (index) => {
+        const updatedLiked = liked.map((item, i) =>
+            i === index ? { ...item, liked: !item.liked } : item
+        );
+        setLiked(updatedLiked); // 상태 업데이트
     };
 
     return (
@@ -180,6 +196,8 @@ function Community() {
                     현지인 추천
                 </div>
             </div>
+
+            {/* 검색창 */}
             <div className="searchContainer">
                 <input
                     type="text"
@@ -189,6 +207,8 @@ function Community() {
                     className="searchInput"
                 />
             </div>
+
+            {/* 인기 여행지 섹션 복구 */}
             <div className="content">
                 {activeTab === "후기" && (
                     <div>
@@ -210,8 +230,64 @@ function Community() {
                                 </Slider>
                             </div>
                         </div>
-                        <div className="Infoboxes">
-                            <div className="InfoSelection"></div>
+                        {/* 필터 드롭다운 */}
+                        <div className="filter">
+                            <div className="filter-dropdown">
+                                <div
+                                    className="filter-button"
+                                    onClick={handleDropdownClick1}
+                                >
+                                    {selectedFilter1}{" "}
+                                    <span className="arrow">&#9662;</span>
+                                </div>
+                                {isDropdownOpen1 && (
+                                    <div className="dropdown-menu">
+                                        <div
+                                            onClick={() =>
+                                                handleFilterClick1("전체")
+                                            }
+                                        >
+                                            최신순
+                                        </div>
+                                        <div
+                                            onClick={() =>
+                                                handleFilterClick1("인기순")
+                                            }
+                                        >
+                                            인기순
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* 두 번째 드롭다운 */}
+                            <div className="filter-dropdown">
+                                <div
+                                    className="filter-button"
+                                    onClick={handleDropdownClick2}
+                                >
+                                    {selectedFilter2}{" "}
+                                    <span className="arrow">&#9662;</span>
+                                </div>
+                                {isDropdownOpen2 && (
+                                    <div className="dropdown-menu">
+                                        <div
+                                            onClick={() =>
+                                                handleFilterClick2("북유럽")
+                                            }
+                                        >
+                                            북유럽
+                                        </div>
+                                        <div
+                                            onClick={() =>
+                                                handleFilterClick2("남유럽")
+                                            }
+                                        >
+                                            남유럽
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <div className="Written">
                             {currentListings.map((listing, index) => (
@@ -264,6 +340,7 @@ function Community() {
                                 </Link>
                             ))}
                         </div>
+
                         <div className="pagination">
                             {Array.from({ length: totalPages }, (_, i) => (
                                 <button
@@ -279,6 +356,7 @@ function Community() {
                         </div>
                     </div>
                 )}
+
                 {activeTab === "추천" && (
                     <div>
                         <div className="Search"></div>
@@ -299,10 +377,63 @@ function Community() {
                                 </Slider>
                             </div>
                         </div>
-                        <div className="Infoboxes">
-                            <div className="InfoSelection">
-                                <div>전체</div>
-                                <div>지역</div>
+                        {/* 필터 드롭다운 */}
+                        <div className="filter">
+                            <div className="filter-dropdown">
+                                <div
+                                    className="filter-button"
+                                    onClick={handleDropdownClick1}
+                                >
+                                    {selectedFilter1}{" "}
+                                    <span className="arrow">&#9662;</span>
+                                </div>
+                                {isDropdownOpen1 && (
+                                    <div className="dropdown-menu">
+                                        <div
+                                            onClick={() =>
+                                                handleFilterClick1("전체")
+                                            }
+                                        >
+                                            최신순
+                                        </div>
+                                        <div
+                                            onClick={() =>
+                                                handleFilterClick1("인기순")
+                                            }
+                                        >
+                                            인기순
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* 두 번째 드롭다운 */}
+                            <div className="filter-dropdown">
+                                <div
+                                    className="filter-button"
+                                    onClick={handleDropdownClick2}
+                                >
+                                    {selectedFilter2}{" "}
+                                    <span className="arrow">&#9662;</span>
+                                </div>
+                                {isDropdownOpen2 && (
+                                    <div className="dropdown-menu">
+                                        <div
+                                            onClick={() =>
+                                                handleFilterClick2("북유럽")
+                                            }
+                                        >
+                                            북유럽
+                                        </div>
+                                        <div
+                                            onClick={() =>
+                                                handleFilterClick2("남유럽")
+                                            }
+                                        >
+                                            남유럽
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="Written">
@@ -356,6 +487,7 @@ function Community() {
                                 </Link>
                             ))}
                         </div>
+
                         <div className="pagination">
                             {Array.from({ length: totalPages }, (_, i) => (
                                 <button
@@ -372,6 +504,13 @@ function Community() {
                     </div>
                 )}
             </div>
+
+            <img
+                src={writeicon}
+                alt="Write Icon"
+                className="fixed-write-icon"
+                onClick={() => (window.location.href = "/write")}
+            />
         </div>
     );
 }
