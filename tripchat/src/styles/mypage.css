@@ -5,6 +5,8 @@
     text-align: center;
     margin: 20px auto;
     width: 200px;
+    border: 1px solid;
+    padding: 10px;
 }
 
 .recommend {

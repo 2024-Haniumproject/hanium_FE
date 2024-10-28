@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick"; // react-slick import
 
 import "slick-carousel/slick/slick.css";
@@ -8,9 +8,22 @@ import "../styles/main.css";
 import mainpageimg from "../assets/mainpageimg.png";
 import recommendimg from "../assets/recommend.png";
 import recommendimg2 from "../assets/recommend2.png";
+import background2 from "../assets/background2.jpg";
 import TravelCard from "../components/TravelCard"; // TravelCard 컴포넌트 임포트
 import Navbar from "../components/Navbar";
+import iconimg from "../assets/chaticon.png";
+
 function Main() {
+    const [currentAdvImg, setCurrentAdvImg] = useState(0);
+    const advImages = [mainpageimg, background2]; // 두 개의 advImg를 배열로 관리
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentAdvImg((prevIndex) => (prevIndex + 1) % advImages.length);
+        }, 5000); // 5초마다 이미지 전환
+        return () => clearInterval(interval); // 컴포넌트가 언마운트될 때 인터벌 클리어
+    }, [advImages.length]);
+
     const popularDestinations = [
         {
             image: recommendimg,
@@ -64,34 +77,18 @@ function Main() {
         ],
     };
 
-    /*
-    const postList = async () => {
-        try {
-            const { data } = await axios.post(
-                "요청할 주소", // 요청을 보낼 주소
-                "보낼 값(객체)", // 서버에 보낼 데이터, 보통 JSON 형식
-                {
-                    headers: {
-                        'Content-type': 'application/json', // 보내는 데이터의 형식을 JSON으로 지정
-                        'Accept': 'application/json' // 서버에서 받을 데이터 형식을 JSON으로 지정
-                    }
-                }
-            );
-            console.log(data); // 요청이 성공했을 때 서버에서 받은 데이터를 출력
-        } catch (error) {
-            console.log(error); // 요청이 실패했을 때 오류 메시지를 출력
-        }
-    }
-    
-*/
     return (
-        <div>
+        <div className="main-page">
             <nav>
                 <Navbar />
             </nav>
             <div>
-                <div className="adv">
-                    <div className="advImg"></div>
+                <div
+                    className="adv"
+                    style={{
+                        backgroundImage: `url(${advImages[currentAdvImg]})`,
+                    }}
+                >
                     <div className="advText">
                         <div className="TextTop">유럽 여행에 대한 모든 것</div>
                         <div className="Texttogether">
@@ -149,7 +146,14 @@ function Main() {
                     </div>
                 </div>
 
-                <div className="chatbot"></div>
+                <div className="chatbot">
+                    <img
+                        src={iconimg}
+                        alt="Chat Icon"
+                        className="fixed-chat-icon"
+                        onClick={() => (window.location.href = "/chat")}
+                    />
+                </div>
             </div>
         </div>
     );
